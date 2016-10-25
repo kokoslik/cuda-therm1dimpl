@@ -72,16 +72,14 @@ float solveGPUshared(double L, double T, double tau, int N)
     float gputime=0;
     HANDLE_ERROR( cudaEventCreate(&start) );
     HANDLE_ERROR( cudaEventCreate(&stop) );
-    double *U,*Unext,*Uloc,*F,*err;
+    double *U,*Unext,*Uloc;
     double *M,*Mdev,*Fdev,*errdev;
     int Nn=N+1;
     int Nplus=Nn+2;
     double h=L/N,t=0.0;
     size_t size=Nplus*sizeof(double);
     size_t sizeM=3*Nn*sizeof(double);
-    F=new double[Nplus];
     Uloc=new double[Nplus];
-    err=new double[Nplus];
     M=new double[Nn*3];
     double maxerr;
     HANDLE_ERROR( cudaMalloc(&U,size) );
@@ -145,9 +143,7 @@ float solveGPUshared(double L, double T, double tau, int N)
 #endif
 
     delete[] Uloc;
-    delete[] err;
     delete[] M;
-    delete[] F;
     HANDLE_ERROR( cudaFree(U) );
     HANDLE_ERROR( cudaFree(Unext) );
     HANDLE_ERROR( cudaFree(Mdev) );
@@ -169,16 +165,14 @@ float solveGPU(double L, double T, double tau, int N)
     float gputime=0;
     HANDLE_ERROR( cudaEventCreate(&start) );
     HANDLE_ERROR( cudaEventCreate(&stop) );
-    double *U,*Unext,*Uloc,*F,*err;
+    double *U,*Unext,*Uloc;
     double *M,*Mdev,*Fdev,*errdev;
     int Nn=N+1;
     int Nplus=Nn+2;
     double h=L/N,t=0.0;
     size_t size=Nplus*sizeof(double);
     size_t sizeM=3*Nn*sizeof(double);
-    F=new double[Nplus];
     Uloc=new double[Nplus];
-    err=new double[Nplus];
     M=new double[Nn*3];
     double maxerr;
     HANDLE_ERROR( cudaMalloc(&U,size) );
@@ -242,9 +236,7 @@ float solveGPU(double L, double T, double tau, int N)
 #endif
 
     delete[] Uloc;
-    delete[] err;
     delete[] M;
-    delete[] F;
     HANDLE_ERROR( cudaFree(U) );
     HANDLE_ERROR( cudaFree(Unext) );
     HANDLE_ERROR( cudaFree(Mdev) );
